@@ -47,11 +47,11 @@ New-Symlink -source <원본경로> -target <링크경로>
 
 마지막으로 대기 모드 해제를 발생시킨 장치나 이벤트를 조회한다.
 
-### Set-EnableWakeOnDevice
+### Enable-WakeOnDevice
 
 지정한 장치에서 대기 모드 해제를 활성화한다.
 
-### Set-DisableWakeOnDevice
+### Disable-WakeOnDevice
 
 지정한 장치나 all 인수로 모든 장치의 대기 모드 해제를 비활성화한다.
 
@@ -61,7 +61,11 @@ New-Symlink -source <원본경로> -target <링크경로>
 
 ### ConvertTo-ICO
 
-이미지 파일을 .ico로 변환한다. ImageMagick의 magick 또는 convert 명령이 설치되어 있어야 하며, ConvertTo-Ico 별칭으로도 호출할 수 있다.
+이미지 파일을 .ico로 변환한다. ImageMagick의 magick 7 이상을 설치해야 한다.
+
+```powershell
+winget install ImageMagick.ImageMagick
+```
 
 ```powershell
 ConvertTo-ICO -InputPath .\icon.png -OutputPath .\icon.ico
@@ -69,9 +73,15 @@ ConvertTo-ICO -InputPath .\icon.png -OutputPath .\icon.ico
 
 ### New-IconLibrary
 
-폴더 안의 .ico 파일을 이름순(ABC순)으로 정렬해 하나의 리소스 전용 DLL로 묶는다. 정렬된 목록의 첫 번째 아이콘이 DLL의 기본 아이콘(인덱스 0)이 되며, dotnet SDK만 있으면 동작한다(오프라인 환경에서도 사용 가능).
+폴더 안의 .ico 파일을 이름순(ABC순)으로 정렬해 하나의 리소스 전용 DLL로 묶는다.
 
-자주 쓰는 기능이 아니라 [src/Functions/IconManipulate.ps1](src/Functions/IconManipulate.ps1)로 분리했다. 프로필 로드 시 함께 불러와서 ConvertTo-ICO와 New-IconLibrary를 바로 사용한다.
+정렬한 목록의 첫 번째 아이콘이 DLL의 기본 아이콘(인덱스 0)이다.
+
+DotNET SDK만 있으면 동작한다.
+
+```powershell
+winget install Microsoft.DotNet.SDK.10
+```
 
 ```powershell
 New-IconLibrary -IconFolder .\icons -OutputDllPath .\icon.dll -Force

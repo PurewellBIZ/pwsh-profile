@@ -104,7 +104,7 @@ function Get-LastWakeEvent {
 }
 
 # 지정된 장치에서 대기 모드 해제를 활성화합니다.
-function Set-EnableWakeOnDevice {
+function Enable-WakeOnDevice {
   param(
     [string]$deviceName
   )
@@ -112,7 +112,7 @@ function Set-EnableWakeOnDevice {
 }
 
 # 지정된 장치 또는 모든 Wake-armed 장치에서 대기 모드 해제를 비활성화합니다.
-function Set-DisableWakeOnDevice {
+function Disable-WakeOnDevice {
   param(
     [string]$deviceName
   )
