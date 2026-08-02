@@ -15,8 +15,10 @@ $moduleRoot = Join-Path $HOME 'Documents\PowerShell\Modules'
 $moduleVersion = '1.0.0'
 
 $manifestCandidate = Join-Path $sourceRoot "$moduleName.psd1"
+$repoRoot = $null
+$gitBranch = $null
 
-if ($Local -and (Get-Command git -ErrorAction SilentlyContinue)) {
+if (Get-Command git -ErrorAction SilentlyContinue) {
     try {
         $repoRoot = git -C $scriptRoot rev-parse --show-toplevel 2>$null | Out-String
         $repoRoot = $repoRoot.Trim()
@@ -27,14 +29,27 @@ if ($Local -and (Get-Command git -ErrorAction SilentlyContinue)) {
 
     if ($repoRoot) {
         try {
-            $gitTag = git -C $repoRoot describe --tags --abbrev=0 2>$null | Out-String
-            $gitTag = $gitTag.Trim()
-            if ($gitTag) {
-                $moduleVersion = $gitTag.TrimStart('v','V')
+            $gitBranch = git -C $repoRoot rev-parse --abbrev-ref HEAD 2>$null | Out-String
+            $gitBranch = $gitBranch.Trim()
+            if ([string]::IsNullOrWhiteSpace($gitBranch) -or $gitBranch -eq 'HEAD') {
+                $gitBranch = $null
             }
         }
         catch {
-            # Git 태그를 읽을 수 없는 경우, 매니페스트나 기본값을 사용
+            $gitBranch = $null
+        }
+
+        if ($Local) {
+            try {
+                $gitTag = git -C $repoRoot describe --tags --abbrev=0 2>$null | Out-String
+                $gitTag = $gitTag.Trim()
+                if ($gitTag) {
+                    $moduleVersion = $gitTag.TrimStart('v','V')
+                }
+            }
+            catch {
+                # Git 태그를 읽을 수 없는 경우, 매니페스트나 기본값을 사용
+            }
         }
     }
 }
@@ -65,6 +80,27 @@ else {
     @()
 }
 
+function Remove-PathIfExists {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Path,
+        [switch]$Recurse
+    )
+
+    if ([string]::IsNullOrWhiteSpace($Path)) {
+        return
+    }
+
+    if (Test-Path -LiteralPath $Path) {
+        try {
+            Remove-Item -LiteralPath $Path -Force -Recurse:$Recurse -ErrorAction SilentlyContinue
+        }
+        catch {
+            # 이미 제거되었거나 접근 권한 문제가 있어도 진행한다.
+        }
+    }
+}
+
 if ($Local) {
     foreach ($fileName in $scriptFiles) {
         $sourcePath = Join-Path $sourceRoot $fileName
@@ -91,16 +127,13 @@ if ($Local) {
     }
 }
 else {
-    $archiveUrl = 'https://github.com/PurewellBIZ/pwsh-profile/archive/refs/heads/main.zip'
+    $branchName = if ($gitBranch) { $gitBranch } else { 'main' }
+    $archiveUrl = "https://github.com/PurewellBIZ/pwsh-profile/archive/refs/heads/$branchName.zip"
     $zipFile = Join-Path $env:TEMP 'pwsh-profile-install.zip'
     $extractRoot = Join-Path $env:TEMP 'pwsh-profile-install'
 
-    if (Test-Path $zipFile) {
-        Remove-Item -Path $zipFile -Force -ErrorAction SilentlyContinue
-    }
-    if (Test-Path $extractRoot) {
-        Remove-Item -Path $extractRoot -Recurse -Force -ErrorAction SilentlyContinue
-    }
+    Remove-PathIfExists -Path $zipFile
+    Remove-PathIfExists -Path $extractRoot -Recurse
 
     Write-Host "저장소 ZIP을 다운로드합니다: $archiveUrl" -ForegroundColor Cyan
     Invoke-WebRequest -Uri $archiveUrl -OutFile $zipFile -UseBasicParsing
@@ -137,8 +170,8 @@ else {
         Copy-Item -Path $sourcePath -Destination $destPath -Force
     }
 
-    Remove-Item -Path $zipFile -Force -ErrorAction SilentlyContinue
-    Remove-Item -Path $extractRoot -Recurse -Force -ErrorAction SilentlyContinue
+    Remove-PathIfExists -Path $zipFile
+    Remove-PathIfExists -Path $extractRoot -Recurse
 }
 
 $moduleBaseDir = Join-Path $moduleRoot $moduleName

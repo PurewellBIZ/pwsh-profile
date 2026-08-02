@@ -69,10 +69,10 @@ PowerShellVersion = '7.0'
 # NestedModules = @()
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-FunctionsToExport = 'Sync-Profile', 'Clear-Trash', 'Clear-AllHistory', 'New-Symlink', 
-               'Get-WakeArmedDevices', 'Get-LastWakeEvent', 'Set-EnableWakeOnDevice', 
-               'Set-DisableWakeOnDevice', 'Reset-DesktopIni', 'ConvertTo-ICO', 
-               'New-IconLibrary'
+FunctionsToExport = 'Sync-Profile', 'Clear-Trash', 'Clear-AllHistory', 'New-Symlink',
+               'Get-WakeArmedDevices', 'Get-LastWakeEvent', 'Set-EnableWakeOnDevice',
+               'Set-DisableWakeOnDevice', 'Reset-DesktopIni', 'ConvertTo-ICO',
+               'New-IconLibrary', 'Repair-SteamShortcuts'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
@@ -132,4 +132,3 @@ PrivateData = @{
 # DefaultCommandPrefix = ''
 
 }
-

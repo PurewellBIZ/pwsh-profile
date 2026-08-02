@@ -174,3 +174,32 @@ function New-IconLibrary {
   . $iconManipulateScript
   New-IconLibrary @args
 }
+
+function New-IconLibrary {
+  $iconManipulateScript = Join-Path $PWSHLibraryPath "IconManipulate.ps1"
+  if (-not (Test-Path -Path $iconManipulateScript -PathType Leaf)) {
+    Write-Error "IconManipulate.ps1 파일을 찾을 수 없습니다: $iconManipulateScript"
+    return
+  }
+
+  . $iconManipulateScript
+  New-IconLibrary @args
+}
+
+function Repair-SteamShortcuts {
+  [CmdletBinding()]
+  param(
+    [string]$SourceFolder = [Environment]::GetFolderPath('Desktop'),
+    [string]$TargetFolder,
+    [string]$SteamPath = 'C:\Program Files (x86)\Steam'
+  )
+
+  $steamManipulateScript = Join-Path $PWSHLibraryPath "SteamManipulate.ps1"
+  if (-not (Test-Path -Path $steamManipulateScript -PathType Leaf)) {
+    Write-Error "SteamManipulate.ps1 파일을 찾을 수 없습니다: $steamManipulateScript"
+    return
+  }
+
+  . $steamManipulateScript
+  Repair-SteamShortcuts -SourceFolder $SourceFolder -TargetFolder $TargetFolder -SteamPath $SteamPath
+}
