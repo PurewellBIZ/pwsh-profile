@@ -21,7 +21,7 @@ ModuleVersion = '1.0.1'
 GUID = 'ae864dcf-543e-440b-98cb-cd3bbe3ce285'
 
 # Author of this module
-Author = 'PurewellBIZ'
+Author = 'NeoGenius'
 
 # Company or vendor of this module
 CompanyName = 'PurewellBIZ'
