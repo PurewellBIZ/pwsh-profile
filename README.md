@@ -14,6 +14,27 @@ pwsh -ExecutionPolicy ByPass -c "irm https://raw.githubusercontent.com/PurewellB
 
 설치 후에는 Documents\PowerShell\Modules\PWSHProfile\<버전> 위치에 모듈을 배치한다. 새 세션에서 Import-Module PWSHProfile를 실행하거나 PowerShell 자동 로딩으로 함수를 바로 사용한다.
 
+## 빌드
+
+NSIS를 설치한 뒤 저장소 루트에서 빌드한다. 버전을 생략하면 `src/PWSHProfile.psd1`의 현재 버전을 사용한다.
+
+```powershell
+winget install NSIS.NSIS
+pwsh -File .\build.ps1 -Version 1.0.3
+```
+
+빌드 결과는 `dist\PWSHProfile-1.0.3-setup.exe`에 생성한다. NSIS 컴파일러가 PATH에 없으면 경로를 직접 지정한다.
+
+```powershell
+pwsh -File .\build.ps1 -NsisPath 'C:\Program Files (x86)\NSIS\makensis.exe'
+```
+
+`install.nsi`를 직접 빌드할 때는 다음 명령을 사용한다.
+
+```powershell
+makensis.exe /DAPPVERSION=1.0.3 /DOUTPUT_FILE=dist\PWSHProfile-1.0.3-setup.exe .\install.nsi
+```
+
 소스 코드 구조는 다음과 같다.
 
 - install.ps1 : 설치 스크립트
@@ -30,6 +51,10 @@ pwsh -ExecutionPolicy ByPass -c "irm https://raw.githubusercontent.com/PurewellB
 ### Clear-AllHistory
 
 PowerShell 히스토리, PSReadLine 히스토리 파일, Windows 탐색기 TypedPaths 레지스트리 항목을 제거한다.
+
+### Clear-Temp
+
+`%TEMP%` 디렉터리의 파일과 하위 폴더를 관리자 권한으로 삭제를 시도한다. 다른 프로세스가 사용하는 항목은 오류 없이 건너뛴다.
 
 ### New-Symlink
 

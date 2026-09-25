@@ -23,6 +23,41 @@ function Clear-Trash {
   Clear-AllHistory
 }
 
+# 현재 사용자의 TEMP 디렉터리 내용을 관리자 권한으로 삭제합니다.
+function Clear-Temp {
+  [CmdletBinding()]
+  param()
+
+  $tempPath = $env:TEMP
+  if ([string]::IsNullOrWhiteSpace($tempPath) -or -not (Test-Path -LiteralPath $tempPath -PathType Container)) {
+    return
+  }
+
+  $isAdministrator = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole(
+    [Security.Principal.WindowsBuiltInRole]::Administrator
+  )
+
+  if ($isAdministrator) {
+    Get-ChildItem -LiteralPath $tempPath -Force -ErrorAction SilentlyContinue |
+    Remove-Item -Force -Recurse -ErrorAction SilentlyContinue
+    return
+  }
+
+  try {
+    $encodedPath = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($tempPath))
+    $encodedCommand = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes(
+        "`$Path = [Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('$encodedPath')); Get-ChildItem -LiteralPath `$Path -Force -ErrorAction SilentlyContinue | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue"
+      ))
+    Start-Process -FilePath (Get-Command pwsh -ErrorAction Stop).Source `
+      -Verb RunAs -Wait -WindowStyle Hidden `
+      -ArgumentList @('-NoProfile', '-EncodedCommand', $encodedCommand) `
+      -ErrorAction SilentlyContinue | Out-Null
+  }
+  catch {
+    # UAC 취소 또는 관리자 프로세스 실행 실패 시 조용히 종료합니다.
+  }
+}
+
 # PowerShell 세션 기록, PSReadLine 기록, 그리고 Explorer Typed Paths를 삭제합니다.
 function Clear-AllHistory {
   [CmdletBinding()]
