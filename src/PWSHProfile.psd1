@@ -1,94 +1,98 @@
 #
-# Module manifest for module 'PWSHProfile'
+# 모듈 'PWSHProfile'의 모듈 매니페스트
+#
+# 생성자: NeoGenius
+#
+# 생성 날짜: 2026-09-25
 #
 
 @{
 
-# Script module or binary module file associated with this manifest.
+# 이 매니페스트와 연결된 스크립트 모듈 또는 이진 모듈 파일입니다.
 RootModule = 'PWSHProfile.psm1'
 
-# Version number of this module.
+# 이 모듈의 버전 번호입니다.
 ModuleVersion = '1.0.1'
 
-# Supported PSEditions
+# 지원되는 PSEditions
 # CompatiblePSEditions = @()
 
-# ID used to uniquely identify this module
+# 이 모듈을 고유하게 식별하는 데 사용하는 ID
 GUID = 'ae864dcf-543e-440b-98cb-cd3bbe3ce285'
 
-# Author of this module
+# 이 모듈의 작성자
 Author = 'NeoGenius'
 
-# Company or vendor of this module
+# 이 모듈의 회사 또는 공급업체
 CompanyName = 'PurewellBIZ'
 
-# Copyright statement for this module
+# 이 모듈의 저작권 문구
 Copyright = '(c) 2026 PurewellBIZ'
 
-# Description of the functionality provided by this module
+# 이 모듈에서 제공하는 기능에 대한 설명
 Description = 'PowerShell 프로필 함수 모듈입니다. Functions 디렉터리의 보조 스크립트를 지연 로드합니다.'
 
-# Minimum version of the PowerShell engine required by this module
+# 이 모듈에 필요한 PowerShell 엔진의 최소 버전
 PowerShellVersion = '7.0'
 
-# Name of the PowerShell host required by this module
+# 이 모듈에 필요한 PowerShell 호스트의 이름
 # PowerShellHostName = ''
 
-# Minimum version of the PowerShell host required by this module
+# 이 모듈에 필요한 PowerShell 호스트의 최소 버전
 # PowerShellHostVersion = ''
 
-# Minimum version of Microsoft .NET Framework required by this module. This prerequisite is valid for the PowerShell Desktop edition only.
+# 이 모듈에 필요한 Microsoft .NET Framework의 최소 버전입니다. 이 필수 구성 요소는 PowerShell 데스크톱 버전에만 유효합니다.
 # DotNetFrameworkVersion = ''
 
-# Minimum version of the common language runtime (CLR) required by this module. This prerequisite is valid for the PowerShell Desktop edition only.
+# 이 모듈에 필요한 CLR(공용 언어 런타임)의 최소 버전입니다. 이 필수 구성 요소는 PowerShell 데스크톱 버전에만 유효합니다.
 # ClrVersion = ''
 
-# Processor architecture (None, X86, Amd64) required by this module
+# 이 모듈에 필요한 프로세서 아키텍처(None, X86, Amd64)
 # ProcessorArchitecture = ''
 
-# Modules that must be imported into the global environment prior to importing this module
+# 이 모듈을 가져오기 전에 전역 환경으로 가져와야 하는 모듈
 # RequiredModules = @()
 
-# Assemblies that must be loaded prior to importing this module
+# 이 모듈을 가져오기 전에 로드해야 하는 어셈블리
 # RequiredAssemblies = @()
 
-# Script files (.ps1) that are run in the caller's environment prior to importing this module.
+# 이 모듈을 가져오기 전에 호출자의 환경에서 실행되는 스크립트 파일(.ps1)입니다.
 # ScriptsToProcess = @()
 
-# Type files (.ps1xml) to be loaded when importing this module
+# 이 모듈을 가져올 때 로드할 형식 파일(.ps1xml)
 # TypesToProcess = @()
 
-# Format files (.ps1xml) to be loaded when importing this module
+# 이 모듈을 가져올 때 로드할 서식 파일(.ps1xml)
 # FormatsToProcess = @()
 
-# Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
+# RootModule/ModuleToProcess에 지정된 모듈의 중첩 모듈로 가져올 모듈
 # NestedModules = @()
 
-# Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-FunctionsToExport = 'Sync-Profile', 'Clear-Trash', 'Clear-AllHistory', 'New-Symlink',
-               'Get-WakeArmedDevices', 'Get-LastWakeEvent', 'Enable-WakeOnDevice',
-               'Disable-WakeOnDevice', 'Reset-DesktopIni', 'ConvertTo-ICO',
+# 이 모듈에서 내보낼 함수입니다. 최상의 성능을 위해 와일드카드를 사용하지 말고, 항목을 삭제하지 마세요. 내보낼 함수가 없으면 빈 배열을 사용하세요.
+FunctionsToExport = 'Sync-Profile', 'Clear-Trash', 'Clear-AllHistory', 'New-Symlink', 
+               'Get-WakeArmedDevices', 'Get-LastWakeEvent', 'Enable-WakeOnDevice', 
+               'Disable-WakeOnDevice', 'Reset-DesktopIni', 'ConvertTo-ICO', 
                'New-IconLibrary', 'Repair-SteamShortcuts'
 
-# Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
+# 이 모듈에서 내보낼 cmdlet입니다. 최상의 성능을 위해 와일드카드를 사용하지 말고, 항목을 삭제하지 마세요. 내보낼 cmdlet이 없으면 빈 배열을 사용하세요.
 CmdletsToExport = @()
 
-# Variables to export from this module
+# 이 모듈에서 내보낼 변수
 # VariablesToExport = @()
 
-# Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
+# 이 모듈에서 내보낼 별칭입니다. 최상의 성능을 위해 와일드카드를 사용하지 말고, 항목을 삭제하지 마세요. 내보낼 별칭이 없으면 빈 배열을 사용하세요.
 AliasesToExport = '*'
 
-# DSC resources to export from this module
+# 이 모듈에서 내보낼 DSC 리소스
 # DscResourcesToExport = @()
 
-# List of all modules packaged with this module
+# 이 모듈과 함께 패키지된 모든 모듈 목록
 # ModuleList = @()
 
-# List of all files packaged with this module
+# 이 모듈과 함께 패키지된 모든 파일 목록
 FileList = 'PWSHProfile.psm1', 'PWSHProfile.psd1'
 
-# Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
+# RootModule/ModuleToProcess에 지정된 모듈에 전달할 프라이빗 데이터입니다. 여기에는 PowerShell에서 사용하는 추가 모듈 메타데이터가 있는 PSData 해시 테이블도 포함될 수 있습니다.
 PrivateData = @{
 
     PSData = @{
@@ -121,10 +125,11 @@ PrivateData = @{
 
  } # End of PrivateData hashtable
 
-# HelpInfo URI of this module
+# 이 모듈의 HelpInfo URI
 # HelpInfoURI = ''
 
-# Default prefix for commands exported from this module. Override the default prefix using Import-Module -Prefix.
+# 이 모듈에서 내보낸 명령의 기본 접두사입니다. Import-Module -Prefix를 사용하여 기본 접두사를 재정의하세요.
 # DefaultCommandPrefix = ''
 
 }
+
